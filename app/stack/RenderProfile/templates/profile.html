@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block body %}
+
+<!-- content -->
+<main class="my-5 py-5">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-3">
+        <div class="card" style="width: 20rem;">
+          <img
+            src="https://i.redd.it/hk39ysv0zy561.png"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title"> {{ user_data["first_name"] + (user_data["last_name"] if "last_name" in user_data else "") if "first_name" in user_data else "Missing Name...Update Profile!!"  }} </h5>
+            <!-- <p class="card-text">
+              description
+            </p> -->
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Email: {{ data["user_data"]["user_id"] }} </li>
+            <li class="list-group-item">Interests: {{ ",".join(user_data["categories"]) | replace("-", " ") if "categories" in user_data else "Missing Interests...Update Profile!!" }}</li>
+            <li class="list-group-item">Location: {{ user_data["city"] if "city" in user_data else "Missing Location...Update Profile!!" }}</li>
+          </ul>
+        </div>
+        {% if data["curr_user_id"] ==  data["user_data"]["user_id"] %}
+          <a href='/update_profile.html?user_id={{ data["user_data"]["user_id"] }}' class="mt-2 btn btn-warning">Update Profile</a>
+        {% endif %}
+        </div>
+    </div>
+  </div>
+</main>
+<!-- end content -->
+
+{% endblock body %}

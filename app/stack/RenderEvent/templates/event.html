@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block body %}
+
+<!-- content -->
+<main class="my-5 py-5" id="event_main_card">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card ms-5" style="width: 48rem;">
+          <img
+            src="https://mdbootstrap.com/img/new/standard/city/062.jpg"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ event["name_text"] }}</h5>
+            <p class="card-text">
+              {{ event["description_text"] }}
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Starts: {{ event["start_local"] }}  Ends: {{ event["end_local"] }}</li>
+            <li class="list-group-item">Event Category: {{ event["category"] | replace("-", " ") }}</li>
+            <li class="list-group-item">Mode: {{ "Online" if event["online_event"] else "In Person" }}</li>
+            {% if "address" in event %}
+              <li class="list-group-item">Address: {{ event["address"] }}</li>
+            {% endif %}
+          </ul>
+          <div class="card-body">
+            <a href="/discussions.html?id={{ event['item_id'] }}" class="btn btn-primary m-0" role="button" rel="nofollow">
+                Go to Events Forum
+            </a>
+            {% if not joined %}
+            <a onclick="join_event('{{ event['item_id'] }}')" class="btn btn-primary m-0" role="button" rel="nofollow">
+              Join Event
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border border-success shadow-0 mb-3" style="max-width: 18rem;">
+        <div class="card-header bg-transparent border-success">Members Attending</div>
+        <div class="card-body text-info" id="event_members">
+          {% for member in event_members %}
+            <li class="d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold"><a href='/profile.html?id={{ member["email"] }}'>{{ member["first_name"] }}</a></div>
+              </div>
+              <!-- <span class="badge bg-primary rounded-pill">14</span> -->
+            </li>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- end content -->
+{% endblock body %}

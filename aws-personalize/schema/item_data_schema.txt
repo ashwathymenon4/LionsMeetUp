@@ -1,0 +1,49 @@
+{
+	"type": "record",
+	"name": "Items",
+	"namespace": "com.amazonaws.personalize.schema",
+	"fields": [
+		{
+			"name": "online_event",
+			"type": "string",
+			"categorical": true
+		},
+		{
+			"name": "organizer_id",
+			"type": "float"
+		},
+		{
+			"name": "venue_id",
+			"type": "float"
+		},
+		{
+			"name": "ITEM_ID",
+			"type": "string"
+		},
+		{
+			"name": "category",
+			"type": "string"
+		},
+		{
+			"name": "name_text",
+			"type": "string"
+		},
+		{
+			"name": "description_text",
+			"type": "string"
+		},
+		{
+			"name": "start_timezone",
+			"type": "string"
+		},
+		{
+			"name": "start_local",
+			"type": "string"
+		},
+		{
+			"name": "end_local",
+			"type": "string"
+		}
+	],
+	"version": "1.0"
+}

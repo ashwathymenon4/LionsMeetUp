@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Lions Meet</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+  <!-- MDB -->
+  <link rel="stylesheet" href="css/mdb.min.css" />
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .ajax-section {
+      margin: 70px 0 20px;
+    }
+
+    #main_card {
+      background-image: url("https://images.template.net/wp-content/uploads/2014/11/ppt-background-2.jpg?width=1200"); /* The image used */
+      background-color: #cccccc; /* Used if the image is unavailable */
+      background-position: center; /* Center the image */
+      background-repeat: no-repeat; /* Do not repeat the image */
+      background-size: cover; /* Resize the background image to cover the entire container */
+    }
+
+    .ajax-section .cities {
+      display: grid;
+      grid-gap: 32px 20px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .ajax-section .city {
+      position: relative;
+      padding: 40px 10%;
+      border-radius: 20px;
+      background: var(--text_light);
+      color: var(--text_med);
+    }
+
+    .ajax-section .city::after {
+      content: '';
+      width: 90%;
+      height: 50px;
+      position: absolute;
+      bottom: -12px;
+      left: 5%;
+      z-index: -1;
+      opacity: 0.3;
+      border-radius: 20px;
+      background: var(--text_light);
+    }
+
+    .ajax-section figcaption {
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ajax-section .city-temp {
+      font-size: 5rem;
+      font-weight: bold;
+      margin-top: 10px;
+      color: var(--text_dark);
+    }
+
+    .ajax-section .city sup {
+      font-size: 0.5em;
+    }
+
+    .ajax-section .city-name sup {
+      padding: 0.2em 0.6em;
+      border-radius: 30px;
+      color: var(--text_light);
+      background: var(--orange);
+    }
+
+    .ajax-section .city-icon {
+      margin-top: 10px;
+      width: 100px;
+      height: 100px;
+    }
+
+    @media screen and (max-width: 1000px) {
+      body {
+        padding: 30px;
+      }
+      
+      .ajax-section .cities {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 700px) {
+      .heading,
+      .ajax-section .city-temp {
+        font-size: 3rem;
+      }
+      
+      .ajax-section {
+        margin-top: 20px;
+      }
+      
+      .top-banner form {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .top-banner form input,
+      .top-banner form button {
+        width: 100%;
+      }
+
+      .top-banner form button {
+        margin: 20px 0 0 0;
+      }
+      
+      .top-banner form .msg {
+        position: static;
+        max-width: none;
+        min-height: 0;
+        margin-top: 10px;
+      }
+
+      .ajax-section .cities {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      body {
+        padding: 15px;
+      }
+      
+      .ajax-section .cities {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!--Main Navigation-->
+  <header>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+      <div class="container-fluid">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="index.html">
+          <img src="assests/images/logo.png" height="25" alt="" loading="lazy" style="margin-top: -3px;" /> Lions Meet
+        </a>
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
+          aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarExample01">
+          <ul class="navbar-nav ms-auto d-flex flex-row">
+            <!-- <li class="nav-item me-3 me-lg-0"> For notifications fillup
+              <a class="nav-link">
+                <i class="fas fa-bell"></i>
+              </a>
+            </li> -->
+            <li class="nav-item" id="user_nav">
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar -->
+  </header>
+  <!--Main Navigation-->
+
+  <!-- <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div> -->
+
+  <!-- content -->
+  <main class="my-5 text-dark" id="main_card">
+    <div class="container">
+      <h2 class="mb-5"><strong>Create your own Event!!</strong></h2>
+      <!-- <form> -->
+        <!-- Name input -->
+        <div class="form-outline mb-4">
+          <input type="text" id="name" class="form-control" required/>
+          <label class="form-label" for="name">Event Name</label>
+        </div>
+
+        <div class="form-outline mb-4">
+          <textarea class="form-control" id="description" rows="4" required></textarea>
+          <label class="form-label" for="description">Description</label>
+        </div>
+
+        <div class="form-outline mb-4">
+          <input type="text" id="location" class="form-control"/>
+          <label class="form-label" for="location">Location</label>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col">
+            <div class="form-outline mb-4">
+              <label class="form-check-label" for="start_time"> From </label>
+              <input type="datetime-local" id="start_time" name="start_time" value="2021-12-24T19:30"
+                min="2021-12-19T00:00" max="2022-12-14T00:00" required>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-outline mb-4">
+              <label class="form-check-label" for="end_time"> To </label>
+              <input type="datetime-local" id="end_time" name="end_time" value="2021-12-24T22:30" min="2021-12-19T00:00"
+                max="2022-12-14T00:00" required onchange="getWeather()">
+            </div>
+          </div>
+        </div>
+
+        <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Weather Prediction for your event!</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-mdb-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <section class="ajax-section">
+                  <div class="container" id="cities">
+                  </div>
+                </section>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-outline mb-4">
+          <input type="text" id="capacity" class="form-control" />
+          <label class="form-label" for="capacity">Capacity</label>
+        </div> -->
+        <select id="category" class="custom-select w-100 p-1 mb-4">
+          <option value="">Select Your Category</option>
+          <option value="food-and-drink">food and drink</option>
+        
+          <option value="health">health</option>
+        
+          <option value="business">business</option>
+        
+          <option value="fashion">fashion</option>
+        
+          <option value="science-and-tech">science and tech</option>
+        
+          <option value="sports-and-fitness">sports and fitness</option>
+        
+          <option value="travel-and-outdoor">travel and outdoor</option>
+        
+          <option value="spirituality">spirituality</option>
+        
+          <option value="charity-and-causes">charity and causes</option>
+        
+          <option value="auto-boat-and-air">auto boat and air</option>
+        
+          <option value="film-and-media">film and media</option>
+        
+      </select>
+        <!-- <div class="form-outline mb-4">
+          <input type="text" id="sharable" class="form-control" required/>
+          <label class="form-label" for="sharable">Sharable</label>
+        </div> -->
+
+        <!-- <div class="form-outline mb-4">
+          <input type="text" id="expenses" class="form-control" />
+          <label class="form-label" for="expenses">Estimated Expense</label>
+        </div> -->
+
+        <!-- Checkbox -->
+        <!-- <div class="form-check d-flex mb-4 col-12">
+          <input class="form-check-input me-2" type="checkbox" value="" id="email" checked />
+          <label class="form-check-label" for="email">
+            Email Folks
+          </label>
+        </div> -->
+
+        <div class="form-check d-flex mb-4 col-12">
+          <input class="form-check-input me-2" type="checkbox" value="" id="online_event" checked required/>
+          <label class="form-check-label" for="online_event">
+            Online Event
+          </label>
+        </div>
+
+        <!-- Submit button -->
+        <!-- <button type="submit" class="btn btn-primary btn-block mb-4">Create</button> -->
+        <div class="col-12">
+          <button onclick="create_event()" type="submit" class="btn btn-success">Create</button>
+        </div>
+        <button
+          type="button"
+          id = "weather_model"
+          class="btn btn-primary"
+          data-mdb-toggle="modal"
+          data-mdb-target="#exampleModal"
+          hidden
+        >
+          Launch demo modal
+        </button>
+      <!-- </form> -->
+    </div>
+  </main>
+
+  <!-- end content -->
+
+  <!--Footer-->
+  <footer class="bg-light text-lg-start">
+    <hr class="m-0" />
+
+    <div class="text-center py-4 align-items-center">
+      <p>Contact Us</p>
+      <a href="https://www.facebook.com/lionsmeetup" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://twitter.com/lionsmeetup" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </div>
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2020 Copyright:
+      <a class="text-dark" href="https://lionsmeetup.com/">lionsmeetup.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!--Footer-->
+  <!-- MDB -->
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Custom scripts -->
+  <script type="text/javascript" src="js/script.js"></script>
+  <script>
+    $(function() {
+        var doc_cookie = document.cookie;
+        if(!doc_cookie) {
+          alert("Please Login!!"); // need to change , models etc.,
+          window.location.href = "/index.html";
+        } else {
+          cookie_pair = doc_cookie.split("=");
+          cookie_json = JSON.parse(cookie_pair[1]);
+          const queryString = (new URL(document.location)).searchParams;
+          console.log(queryString);
+        }
+    });
+  </script>
+  <script>
+  
+    function initMap() {
+      const center = { lat: 40.730610, lng: -73.935242 };
+      // Create a bounding box with sides ~10km away from the center point
+      const defaultBounds = {
+        north: center.lat + 0.1,
+        south: center.lat - 0.1,
+        east: center.lng + 0.1,
+        west: center.lng - 0.1,
+      };
+      const input = document.getElementById("location");
+      const options = {
+        bounds: defaultBounds,
+        componentRestrictions: { country: "us" },
+        fields: ["address_components", "geometry", "icon", "name"],
+        strictBounds: false,
+        types: ["establishment"],
+      };
+      autocomplete = new google.maps.places.Autocomplete(input, options);
+      autocomplete.addListener("places_changed", () => {
+        // alert("hellp")
+        var place = autocomplete.getPlace()
+        if(!place.geometry) {
+          alert("Enter a valid place");
+        } else {
+          console.log(place)
+        }
+      });
+    }
+  </script>
+  <script async defer 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwyNLPk8a4QyNKl7cMJRk5hottwjBwQ7w&libraries=places&callback=initMap" type="text/javascript">
+  </script>
+  <script>
+    function getWeather() {
+
+      var place = autocomplete.getPlace()
+      var lat = place.geometry.location.lat()
+      var lng = place.geometry.location.lng()
+      var curr_date = new Date()
+      var start_date = new Date(document.getElementById("start_time").value)
+      var end_date = new Date(document.getElementById("end_time").value)
+      var start_diff = Math.abs(start_date - curr_date);
+      var end_diff = Math.abs(end_date - curr_date);
+      var start_count = Math.ceil(start_diff / (1000 * 60 * 60 * 24)) - 1;
+      var end_count = Math.ceil(end_diff / (1000 * 60 * 60 * 24)) - 1;
+      const list = document.getElementById("cities")
+      const url = "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat + "&lon=" + lng + "&cnt=16&appid=07023f0e11acc65e8103cc5483b5d836&units=metric";
+      console.log(start_count)
+      console.log(end_count)
+      fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        for(item in data["list"]) {
+          console.log(item)
+          console.log(item < start_count)
+          console.log(item > end_count)
+          if (item < start_count || item > end_count) {
+            continue;
+          }
+          var ddate = new Date()
+          ddate.setDate(curr_date.getDate() + parseInt(item))
+          console.log(ddate.toLocaleString())
+          console.log(curr_date.getDate() + item)
+          const dstring = ddate.toLocaleString().split(",")[0]
+          const weather = data["list"][item]["weather"];
+          const name = place.name
+          const sys = data["city"]
+          const main =  data["list"][item]["temp"]["day"]
+          const icon = `https://openweathermap.org/img/wn/${
+            weather[0]["icon"]
+          }@2x.png`;
+
+          const li = document.createElement("div");
+          li.classList.add("city");
+          const markup = `
+            <h8>${dstring}</h8>
+            <h2 class="city-name" data-name="${name},${sys.country}">
+              <span>${name}</span>
+              <sup>${sys.country}</sup>
+            </h2>
+            <div class="city-temp">${Math.round(main)}<sup>°C</sup></div>
+            <figure>
+              <img class="city-icon" src=${icon} alt=${weather[0]["main"]}>
+              <figcaption>${weather[0]["description"]}</figcaption>
+            </figure>
+          `;
+          li.innerHTML = markup;
+          list.appendChild(li);
+        }
+        document.getElementById("weather_model").click();
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+  </script>
+</body>
+
+</html>

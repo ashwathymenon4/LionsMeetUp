@@ -1,0 +1,343 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+  # RenderAPI:
+  #   Type: AWS::Serverless::Api
+  #   Properties:
+  #     StageName: Staging
+  #     DefinitionBody:
+  #         swagger: 2.0
+  #         info:
+  #             title: Search Photos API
+  #         paths:
+  #           /home:
+  #             get:
+  #               produces:
+  #               - "application/json"
+  #               responses:
+  #                 "200":
+  #                   description: "200 response"
+  #                   schema:
+  #                     $ref: "#/definitions/Empty"
+  #                   headers:
+  #                     Access-Control-Allow-Origin:
+  #                       type: "string"
+  #                     Access-Control-Allow-Methods:
+  #                       type: "string"
+  #                     Access-Control-Allow-Headers:
+  #                       type: "string"
+  #               x-amazon-apigateway-integration:
+  #                 httpMethod: "POST"
+  #                 uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RenderHome.Arn}/invocations"
+  #                 responses:
+  #                   default:
+  #                     statusCode: "200"
+  #                     responseParameters:
+  #                       method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+  #                       method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+  #                       method.response.header.Access-Control-Allow-Origin: "'*'"
+  #                 passthroughBehavior: "when_no_match"
+  #                 contentHandling: "CONVERT_TO_TEXT"
+  #                 type: "aws"
+  #             options:
+  #               consumes:
+  #               - "application/json"
+  #               produces:
+  #               - "application/json"
+  #               responses:
+  #                 "200":
+  #                   description: "200 response"
+  #                   schema:
+  #                     $ref: "#/definitions/Empty"
+  #                   headers:
+  #                     Access-Control-Allow-Origin:
+  #                       type: "string"
+  #                     Access-Control-Allow-Methods:
+  #                       type: "string"
+  #                     Access-Control-Allow-Headers:
+  #                       type: "string"
+  #               x-amazon-apigateway-integration:
+  #                 responses:
+  #                   default:
+  #                     statusCode: "200"
+  #                     responseParameters:
+  #                       method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+  #                       method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+  #                       method.response.header.Access-Control-Allow-Origin: "'*'"
+  #                 requestTemplates:
+  #                   application/json: "{\"statusCode\": 200}"
+  #                 passthroughBehavior: "when_no_match"
+  #                 type: "mock"
+
+  lionsBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: lions-photos-cf
+      AccessControl: PublicRead
+      Tags:
+        - Key: "env"
+          Value: "test"
+
+  lionsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref lionsBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action: 
+              - 's3:GetObject'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref lionsBucket
+                - /*
+
+  iamRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - apigateway.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns: 
+          - arn:aws:iam::aws:policy/AmazonS3FullAccess
+          - arn:aws:iam::aws:policy/CloudWatchFullAccess
+          - arn:aws:iam::aws:policy/AmazonOpenSearchServiceFullAccess
+          - arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess
+          - arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator
+          - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+          - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+          - arn:aws:iam::aws:policy/AmazonSESFullAccess
+      RoleName: renderRole
+
+  RenderHome:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: RenderHome
+        CodeUri: ./RenderHome/
+        Description: Returns user home page
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  RenderProfile:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: RenderProfile
+        CodeUri: ./RenderProfile/
+        Description: Returns user proofile page
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  RenderUpdateProfile:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: RenderUpdateProfile
+        CodeUri: ./RenderUpdateProfile/
+        Description: Returns update user proofile page
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  RenderIndex:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: RenderIndex
+        CodeUri: ./RenderIndex/
+        Description: Returns update user Index page
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  ConnectChat:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: ConnectChat
+        CodeUri: ./ConnectChat/
+        Description: Stores User Connection ID from DynamoDB
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  DisconnectChat:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: DisconnectChat
+        CodeUri: ./DisconnectChat/
+        Description: Delete User Connection ID from DynamoDB
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  SendMessage:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: SendMessage
+        CodeUri: ./SendMessage/
+        Description: SendMessage to user
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  RenderDiscussions:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: RenderDiscussions
+        CodeUri: ./RenderDiscussions/
+        Description: RenderDiscussions to user
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  GeoLocation:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: GeoLocation
+        CodeUri: ./GeoLocation/
+        Description: GeoLocation to user
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  GetChatHistory:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: GetChatHistory
+        CodeUri: ./GetChatHistory/
+        Description: GetChatHistory to user
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  GetEventMembers:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: GetEventMembers
+        CodeUri: ./GetEventMembers/
+        Description: GetEventMembers to user
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  RenderSearch:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: RenderSearch
+        CodeUri: ./RenderSearch/
+        Description: RenderSearch to user
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+
+  RenderEvent:
+    Type: AWS::Serverless::Function
+    Properties:
+        FunctionName: RenderEvent
+        CodeUri: ./RenderEvent/
+        Description: Returns event page
+        Handler: lambda_function.lambda_handler
+        Runtime: python3.9
+        Role: !GetAtt iamRole.Arn
+        Timeout: 600
+        # Events:
+        #   RenderAPI:
+        #     Type: Api 
+        #     Properties:
+        #         RestApiId: !Ref RenderAPI
+        #         Path: /home
+        #         Method: get
+
+  # RenderEvent:
+    # Type: AWS::Serverless::Function
+    # Properties:
+    #     FunctionName: RenderEvent
+    #     CodeUri: ./render-event/
+    #     Description: Returns event page
+    #     Handler: lambda_function.lambda_handler
+    #     Runtime: python3.9
+    #     Role: !GetAtt iamRole.Arn
+    #     Timeout: 600
+    #     Events:
+    #       RenderAPI:
+    #         Type: Api 
+    #         Properties:
+    #             RestApiId: !Ref RenderAPI
+    #             Path: /event
+    #             Method: get
+  
+    # RenderProfile:
+    #   Type: AWS::Serverless::Function
+    #   Properties:
+    #       FunctionName: RenderProfile
+    #       CodeUri: ./render-profile/
+    #       Description: Returns profile page
+    #       Handler: lambda_function.lambda_handler
+    #       Runtime: python3.9
+    #       Role: !GetAtt iamRole.Arn
+    #       Timeout: 600
+    #       Events:
+    #         RenderAPI:
+    #           Type: Api 
+    #           Properties:
+    #               RestApiId: !Ref RenderAPI
+    #               Path: /profile
+    #               Method: get
+
+    # RenderDiscussions:
+    #   Type: AWS::Serverless::Function
+    #   Properties:
+    #       FunctionName: RenderDiscussions
+    #       CodeUri: ./render-discussion/
+    #       Description: Returns discussion page
+    #       Handler: lambda_function.lambda_handler
+    #       Runtime: python3.9
+    #       Role: !GetAtt iamRole.Arn
+    #       Timeout: 600
+    #       Events:
+    #         RenderAPI:
+    #           Type: Api 
+    #           Properties:
+    #               RestApiId: !Ref RenderAPI
+    #               Path: /discussions
+    #               Method: get
+
+    # RenderUpdateProfile:
+    #   Type: AWS::Serverless::Function
+    #   Properties:
+    #       FunctionName: RenderUpdateProfile
+    #       CodeUri: ./render-update-profile/
+    #       Description: Returns profile update page
+    #       Handler: lambda_function.lambda_handler
+    #       Runtime: python3.9
+    #       Role: !GetAtt iamRole.Arn
+    #       Timeout: 600
+    #       Events:
+    #         RenderAPI:
+    #           Type: Api 
+    #           Properties:
+    #               RestApiId: !Ref RenderAPI
+    #               Path: /update_profile
+    #               Method: get

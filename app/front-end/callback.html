@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Lions Meet</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+  <!-- MDB -->
+  <link rel="stylesheet" href="css/mdb.min.css" />
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!--Main Navigation-->
+  <header>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+      <div class="container-fluid">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="index.html">
+          <img src="assests/images/logo.png" height="25" alt="" loading="lazy" style="margin-top: -3px;" /> Lions Meet
+        </a>
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
+          aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarExample01">
+          <ul class="navbar-nav ms-auto d-flex flex-row">
+            <!-- <li class="nav-item me-3 me-lg-0"> For notifications fillup
+              <a class="nav-link">
+                <i class="fas fa-bell"></i>
+              </a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" onclick="login()">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar -->
+  </header>
+  <!--Main Navigation-->
+
+  <!--Main layout-->
+  TML
+  <div class="card">
+    <div class="card-header">Login Successful!</div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>
+          Redirecting to the home page....
+        </p>
+      </blockquote>
+    </div>
+  </div>
+  <!--Main layout-->
+
+  <!--Footer-->
+  <footer class="bg-light text-lg-start">
+    <hr class="m-0" />
+
+    <div class="text-center py-4 align-items-center">
+      <p>Contact Us</p>
+      <a href="https://www.facebook.com/lionsmeetup" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://twitter.com/lionsmeetup" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </div>
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2020 Copyright:
+      <a class="text-dark" href="https://lionsmeetup.com/">lionsmeetup.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!--Footer-->
+  <!-- MDB -->
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Custom scripts -->
+  <script type="text/javascript" src="js/script.js"></script>
+  <script>
+    $(function () {
+      const queryString = window.location.href.split("#")[1];
+      console.log(queryString);
+      const urlParams = new URLSearchParams(queryString);
+      // #http://localhost:8080/callback.html#id_token=eyJraWQiOiJjNXdIM2VqK0hvZmlIWDduRk1qMW81dTFoTGpiNTJcL0V6UlJPd2craHlhRT0iLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiTVZudER2SmtZUEltNzhVWklncE5mQSIsInN1YiI6ImJiMWZiNDdhLWU5ZTktNDg3OS1hZjdiLWNmN2Y4NDA3YjZlYiIsImNvZ25pdG86Z3JvdXBzIjpbInVzLWVhc3QtMV9nbVFNRkxQYUJfR29vZ2xlIl0sImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfZ21RTUZMUGFCIiwiY29nbml0bzp1c2VybmFtZSI6Imdvb2dsZV8xMDAwNTQ3Mzg3MTk1Mzk1NTM4NTAiLCJhdWQiOiIyNGNpNjIxM3ZjcGkwdW4yMWsyYjUxZmgxZCIsImlkZW50aXRpZXMiOlt7InVzZXJJZCI6IjEwMDA1NDczODcxOTUzOTU1Mzg1MCIsInByb3ZpZGVyTmFtZSI6Ikdvb2dsZSIsInByb3ZpZGVyVHlwZSI6Ikdvb2dsZSIsImlzc3VlciI6bnVsbCwicHJpbWFyeSI6InRydWUiLCJkYXRlQ3JlYXRlZCI6IjE2MzgyODMwNzg2OTcifV0sInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjM4MzA1NTMwLCJleHAiOjE2MzgzMDkxMzAsImlhdCI6MTYzODMwNTUzMCwianRpIjoiMjEwZGE3ZjgtMWJmNS00YmM0LThjMGUtMzVlMzUxYmJkNjFlIiwiZW1haWwiOiJkZWVwYWtyYWoxOTk3QGdtYWlsLmNvbSJ9.cOFHMGEZpjsgXFaGoEKAd2zjKLt3nFiujwQq3OPHYatNxJ88F47f1u4zFHkEXhz9eOLdLyadZHHKguJ9yHXEJGffzp8TN1eO_8Pavp7zK0QO08EErmCRmwD1pApttgk3VbdA68IgLA7YpjGuQ0552Lnvca7nCrnWSyiAOmsft4gHGjhKnTC-ta89g8ncaZ0nKNvBNW5xUFljX-gnH0BhGJe-5X_qgFzTem0wFZDN0yDhVP0uLXlSoO779Jwhy8EPEBE5J4qWzoAnyjs_uCsmQehekdGxckX0OCrUdVC56qhtBLcwHVrDL6_DcYWdnt1aSqxDG6pLrAOP8Leh9uT2Kw&access_token=eyJraWQiOiJRZFVtYUdxVThhZHVqUzNKTXRpV1hLb3JOQ0NmTVVoNWZ4RVhmT3NRUStjPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJiYjFmYjQ3YS1lOWU5LTQ4NzktYWY3Yi1jZjdmODQwN2I2ZWIiLCJjb2duaXRvOmdyb3VwcyI6WyJ1cy1lYXN0LTFfZ21RTUZMUGFCX0dvb2dsZSJdLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6InBob25lIG9wZW5pZCBwcm9maWxlIGVtYWlsIiwiYXV0aF90aW1lIjoxNjM4MzA1NTMwLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9nbVFNRkxQYUIiLCJleHAiOjE2MzgzMDkxMzAsImlhdCI6MTYzODMwNTUzMCwidmVyc2lvbiI6MiwianRpIjoiY2YzYWI4YmMtMjM0ZS00MGU1LWExNmYtMDkyOGMxMTYwZTViIiwiY2xpZW50X2lkIjoiMjRjaTYyMTN2Y3BpMHVuMjFrMmI1MWZoMWQiLCJ1c2VybmFtZSI6Imdvb2dsZV8xMDAwNTQ3Mzg3MTk1Mzk1NTM4NTAifQ.lKJcCPdLUIf7XkUlhOUn2Cm8VctPj_01LxE11VkbVisdpLMa4KdeQiaafJPhFw2fHmjOobNMeYjhsj13eg6vRJ87GiSMYRwC3ewacqsZw5V4JmYUBH49XObtRTpx-HKo_BRz9_PCy39m88dgVE92yeWmwx5MuZdjQwp1z-tzMulIbLNXn7M5RfGFE3NMubAvPjxiMSDKVX5QxuvgtrH-Wc7IhLBKoSoP_n16bjSTYrDNAcXQ9G1fCpuH7A7aEN3Hd66WbmgkMe_tXSm_5JYzgC0FacP-eA070W2GOmdpT8GteQdVBsOYbirp1f8fr8jDKL-8e_r4PplG68jBM3U3ag&expires_in=3600&token_type=Bearer
+      const id_token = urlParams.get('id_token')
+      const access_token = urlParams.get('access_token')
+      // var tokens = id_token.split(".");
+      // console.log(atob(tokens[0]));
+      // var user_data = JSON.parse(atob(tokens[1]));
+      // console.log(user_data);
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + access_token);
+      // myHeaders.append("Cookie", "XSRF-TOKEN=675df5d0-1da3-4ba9-a731-4413fe7be982");
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      fetch("https://lionsmeetup.auth.us-east-1.amazoncognito.com/oauth2/userInfo", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          var document_cookie = document.cookie;
+          if (document_cookie) {
+            cookie_pair = document_cookie.split("=")
+            cookie_json = JSON.parse(cookie_pair[1]);
+            cookie_json["user_data"] = result;
+          } else {
+            document_cookie = "lions_data="
+            cookie_data = {
+              "user_data": result
+            }
+            document.cookie = document_cookie + JSON.stringify(cookie_data);
+          }
+          var user_data_json = result;
+          user_data_json["first_name"] = result["given_name"];
+          user_data_json["last_name"] = result["family_name"];
+          user_data_json["gender"] = result["gender"];
+          fetch('https://1ptsftnwde.execute-api.us-east-1.amazonaws.com/test/create-users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(user_data_json),
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+            var document_cookie = document.cookie;
+            if (document_cookie) {
+              cookie_pair = document_cookie.split("=")
+              cookie_json = JSON.parse(cookie_pair[1]);
+              cookie_json["user_data"] = Object.assign({}, cookie_json["user_data"], data["body"]);
+              document_cookie = "lions_data="
+              document.cookie = document_cookie + JSON.stringify(cookie_json);
+            } else {
+              document_cookie = "lions_data="
+              cookie_data = {
+                "user_data": data["body"]
+              }
+              document.cookie = document_cookie + JSON.stringify(cookie_data);
+            }
+            window.location.href = "/home.html"
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            alert("Error registering user!! Please try logging in again")
+            window.location.href = "/index.html"
+          });
+        })
+        .catch(error => console.log('error', error));
+    });
+  </script>
+</body>
+
+</html>

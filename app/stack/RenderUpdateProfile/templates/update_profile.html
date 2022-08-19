@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block body %}
+
+<!-- content -->
+<main class="my-5 py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2 class="mb-5"><strong>Update Profile</strong></h2>
+          <!-- Name input -->
+          <h6>First Name</h6>
+          <div class="form-outline mb-4">
+            <input type="text" {{ "value='" + user_data['first_name'] + "'" if 'first_name' in user_data else ''}} id="first_name" class="form-control" />
+          </div>
+          <h6>Last Name</h6>
+          <div class="form-outline mb-4">
+            <input type="text" {{ "value='" +  user_data['last_name'] + "'" if 'last_name' in user_data else ''}}" id="last_name" class="form-control" />
+          </div>
+          <h6>Phone Number</h6>
+          <div class="form-outline mb-4">
+            <input type="text" {{ "value='" +  user_data['mobile'] + "'" if 'mobile' in user_data else ''}}" id="mobile" class="form-control" />
+          </div>
+          <h6>Age</h6>
+          <div class="form-outline mb-4">
+            <input type="text" {{ "value='" +  user_data['age']|string + "'" if 'age' in user_data else ''}}" id="age" class="form-control" />
+          </div>
+          <h6>Email</h6>
+          <div class="form-outline mb-4">
+            <input disabled type="text" value='{{ data["user_data"]["user_id"] }}' id="email" class="form-control" />
+          </div>
+          <button type="submit" onclick='get_geo()' class="btn btn-warning">Get Current Location</button>
+
+          <h6 style="padding-top: 5%; padding-bottom: 5%;">Or Enter City State And Zip Below</h6>
+
+          <h6>Address</h6>
+          <div class="form-outline mb-4">
+            <input type="text" {{ "value='" +  user_data['address'] + "'" if 'address' in user_data else ''}}" id="address" class="form-control" />
+          </div>
+
+          <h6>City</h6>
+          <div class="form-outline mb-4">
+            <input type="text" {{ "value='" +  user_data['city'] + "'" if 'city' in user_data else ''}}" id="city" class="form-control" />
+          </div>
+          <h6>State</h6>
+          <div class="form-outline mb-4">
+            <input type="text" {{ "value='" +  user_data['state'] + "'" if 'state' in user_data else ''}}" id="state" class="form-control" />
+          </div>
+          <h6>Zip Code</h6>
+          <div class="form-outline mb-4">
+            <input type="text" {{ "value='" +  user_data['zip_code'] + "'" if 'zip_code' in user_data else ''}}" id="zip_code" class="form-control" />
+          </div>
+          <h6>Interests</h6>
+          {% set tags = ['food-and-drink','health', 'business', 'fashion', 'science-and-tech', 'sports-and-fitness', 'travel-and-outdoor', 'spirituality','charity-and-causes', 'auto-boat-and-air', 'film-and-media'] %}
+          <div class="form-outline">
+            <!-- <label class="form-label" for="tags">Select Your Interests</label> -->
+            <select id="categories" class="custom-select w-100 p-3 mb-4" multiple>
+              {% for tag in tags %}
+                <option {{"selected" if tag in user_data['categories'] else ""}} value="{{tag}}">{{tag | replace("-", " ")}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <h6>Gender</h6>
+          <div class="form-outline">
+            <!-- <label class="form-label">Gender</label> -->
+            <select id="gender" class="custom-select w-100 p-1 mb-4">
+              <option {{"selected" if "male" == (user_data["gender"].lower() if "gender" in user_data else "") else ""}} value="Male">Male</option>
+              <option {{"selected" if "female" == (user_data["gender"].lower() if "gender" in user_data else "") else ""}} value="Female">Female</option>
+            </select>
+          </div>
+
+          <div class="form-outline mb-4">
+            <input type="text" id="lat" class="form-control" hidden/>
+          </div>
+          <div class="form-outline mb-4">
+            <input type="text" id="long" class="form-control" hidden/>
+          </div>
+          <!-- Submit button -->
+          <!-- <button type="submit" class="btn btn-primary btn-block mb-4">Create</button> -->
+          <div class="row">
+            <div class="col">
+              <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <button type="submit" onclick='update_profile("{{ data["user_data"]["user_id"] }}")' class="btn btn-success">Update</button>
+              </div>
+            </div>
+            <div class="col">
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a class="btn btn-primary " href='/profile.html?id={{ data["user_data"]["user_id"] }}' role="button">
+                  View My Profile
+                </a>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="col-md-3">
+        <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+          <img src="https://mdbootstrap.com/img/new/standard/nature/111.jpg" class="img-fluid rounded" />
+        </div>
+        <div class="text-center">
+          <input type="file" class="form-control" id="inputGroupFile02" />
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- end content -->
+
+{% endblock body %}

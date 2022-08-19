@@ -1,0 +1,221 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  lionsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: lions-photos-cf
+      AccessControl: PublicRead
+      Tags:
+      - Key: env
+        Value: test
+  lionsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: lionsBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: '*'
+          Action:
+          - s3:GetObject
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:s3:::'
+              - Ref: lionsBucket
+              - /*
+  iamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+            - apigateway.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AmazonS3FullAccess
+      - arn:aws:iam::aws:policy/CloudWatchFullAccess
+      - arn:aws:iam::aws:policy/AmazonOpenSearchServiceFullAccess
+      - arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess
+      - arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator
+      - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+      - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+      - arn:aws:iam::aws:policy/AmazonSESFullAccess
+      RoleName: renderRole
+  RenderHome:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RenderHome
+      CodeUri: s3://aws-sam-template-stack/c4e68f29fd3ed094c9c63c21b2f73339
+      Description: Returns user home page
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  RenderProfile:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RenderProfile
+      CodeUri: s3://aws-sam-template-stack/6e7e4ba64efcd16f9f513f8c3ab16ef6
+      Description: Returns user proofile page
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  RenderUpdateProfile:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RenderUpdateProfile
+      CodeUri: s3://aws-sam-template-stack/1c9bad84ddf1da90b5423b6542151a1a
+      Description: Returns update user proofile page
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  RenderIndex:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RenderIndex
+      CodeUri: s3://aws-sam-template-stack/15c40f96c25e6c8bfa942a3e9e9a4a2d
+      Description: Returns update user Index page
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  ConnectChat:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ConnectChat
+      CodeUri: s3://aws-sam-template-stack/0c52717c0e7e0cdf87aa735eaed0774b
+      Description: Stores User Connection ID from DynamoDB
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  DisconnectChat:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: DisconnectChat
+      CodeUri: s3://aws-sam-template-stack/18319209822e7681f0b6b501fbb372fb
+      Description: Delete User Connection ID from DynamoDB
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  SendMessage:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SendMessage
+      CodeUri: s3://aws-sam-template-stack/1f083b0b75e67e30354c9c4fdb50d0cf
+      Description: SendMessage to user
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  RenderDiscussions:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RenderDiscussions
+      CodeUri: s3://aws-sam-template-stack/a7d096c0711c6f67aa7aa4a7450f3414
+      Description: RenderDiscussions to user
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  GeoLocation:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GeoLocation
+      CodeUri: s3://aws-sam-template-stack/5632caa53d674f738defa8d6b6c76ad7
+      Description: GeoLocation to user
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  GetChatHistory:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetChatHistory
+      CodeUri: s3://aws-sam-template-stack/faa366038fa0f13642849fc625665340
+      Description: GetChatHistory to user
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  GetEventMembers:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetEventMembers
+      CodeUri: s3://aws-sam-template-stack/1e7b7b0312b3c68629bb887a199c2658
+      Description: GetEventMembers to user
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  RenderSearch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RenderSearch
+      CodeUri: s3://aws-sam-template-stack/e80a8870dd16d3071a22783ab0689596
+      Description: RenderSearch to user
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600
+  RenderEvent:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RenderEvent
+      CodeUri: s3://aws-sam-template-stack/ccf55c279d250ed157d92de257df0f63
+      Description: Returns event page
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - iamRole
+        - Arn
+      Timeout: 600

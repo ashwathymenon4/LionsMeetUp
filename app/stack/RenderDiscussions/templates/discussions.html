@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block body %}
+
+<!-- content -->
+<main class="my-5 py-5" id="discussions_main_card">
+  <div class="container">
+    <div class="row">
+      <div class="list-group col-3">
+        <div class="overflow-auto bg-light" style="max-width: auto; max-height:80%">
+          <a class="list-group-item list-group-item-action active" aria-current="true">
+            {{ curr_event["name_text"] }}
+          </a>
+          {% for event in data["events"] %}
+            {% if event["item_id"] != curr_event["item_id"] %}
+              <a href="/discussions.html?id={{ event['item_id'] }}" class="list-group-item list-group-item-action">
+                {{ event["name_text"] }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="list-group col">
+        <div class="row">
+          <div id="chat" class="overflow-auto bg-light" style="max-width: auto; max-height:800px; height: 800px;">
+            <div class="p-3 mb-3 bg-info bg-gradient text-dark">Chatroom &amp; Discussions forum for event
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-group mt-2">
+            <input type="text" class="form-control" placeholder="Type Here" id="post-bar"/>
+              <a class="btn btn-primary" style="background-color: #3b5998;" role="button" onclick="sendGroupMessage()"
+              ><i class="fas fa-angle-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+</main> 
+<!-- end content -->
+
+{% endblock body %}
+
+{% block script %}
+
+{% if not_found %}
+
+  alert("Event Not Found!!");
+  window.location.href = "/home.html"
+
+{% endif %}
+
+function sendGroupMessage() {
+  var content = $("#post-bar").val();
+  var u_data = check_cookie()["user_data"]
+  if (content !== "") {
+      data = {
+        "action": "message", 
+        "event_id": event_id, 
+        "user_id": u_data["user_id"], 
+        "message": content,
+        "given_name": u_data["given_name"]
+      };
+      console.log(data)
+      socket.send(JSON.stringify(data));
+      $("#post-bar").val("");
+      temp_chat_box = `
+        <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+      `
+      temp_chat_box += '<h5 class="mb-1">You</h5>'
+      var dt = new Date();
+      temp_chat_box += '<small class="text-muted">' + dt.toDateString() + "  " + dt.toLocaleTimeString() + '</small></div>'
+      temp_chat_box += '<p class="mb-1">' + data["message"] + '</p></a>'
+      $("#chat").append(temp_chat_box);
+      $("#chat").children().last()[0].scrollIntoView();
+  }
+}
+
+socket.onmessage = function(message) {
+  var data = JSON.parse(message.data);
+  var u_data = check_cookie()["user_data"]
+  console.log(data);
+  temp_chat_box = `
+        <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+      `
+  if (data["user_id"] != u_data["user_id"]) {
+    temp_chat_box += '<h5 class="mb-1">' + data["given_name"] + '</h5>'
+    var dt = new Date(+data["timestamp"] * 1000);
+    temp_chat_box += '<small class="text-muted">' + dt.toDateString() + "  " + dt.toLocaleTimeString() + '</small></div>'
+    temp_chat_box += '<p class="mb-1">' + data["message"] + '</p></a>'
+    $("#chat").append(temp_chat_box);
+    $("#chat").children().last()[0].scrollIntoView();
+  }
+};
+
+get_chat_history('{{ curr_event["item_id"] }}')
+{% endblock script %}

@@ -1,0 +1,52 @@
+{
+	"type": "record",
+	"name": "Users",
+	"namespace": "com.amazonaws.personalize.schema",
+	"fields": [
+		{
+			"name": "USER_ID",
+			"type": "string"
+		},
+		{
+			"name": "first_name",
+			"type": "string"
+		},
+		{
+			"name": "last_name",
+			"type": "string"
+		},
+		{
+			"name": "email",
+			"type": "string"
+		},
+		{
+			"name": "gender",
+			"type": "string"
+		},
+		{
+			"name": "address",
+			"type": "string"
+		},
+		{
+			"name": "state",
+			"type": "string"
+		},
+		{
+			"name": "mobile",
+			"type": "string"
+		},
+		{
+			"name": "zip_code",
+			"type": "string"
+		},
+		{
+			"name": "age",
+			"type": "int"
+		},
+		{
+			"name": "categories",
+			"type": "string"
+		}
+	],
+	"version": "1.0"
+}
